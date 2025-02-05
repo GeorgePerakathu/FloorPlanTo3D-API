@@ -55,8 +55,7 @@ MODEL_NAME = "mask_rcnn_hq"
 WEIGHTS_FILE_NAME = 'maskrcnn_15_epochs.h5'
 
 application=Flask(__name__)
-cors = CORS(application, resources={r"/*": {"origins": "*"}})
-
+cors = CORS(application)
 
 class PredictionConfig(Config):
 	# define the name of the configuration
@@ -142,6 +141,7 @@ def turnSubArraysToJson(objectsArr):
 
 
 @application.route('/',methods=['POST'])
+@cross_origin()  # Allow all CORS requests for this route
 def prediction():
 	global cfg
 	imagefile = PIL.Image.open(request.files['image'].stream)
